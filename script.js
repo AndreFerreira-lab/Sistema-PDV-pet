@@ -1,94 +1,104 @@
-// ======== LOGIN ========
+// Login
 function login() {
-  const user = document.getElementById('user').value;
-  const pass = document.getElementById('pass').value;
-  if (user === 'admin' && pass === '1234') {
-    document.getElementById('login-screen').classList.remove('active');
-    document.getElementById('main-screen').classList.add('active');
-    carregarDados();
+  const user = document.getElementById("usuario").value;
+  const pass = document.getElementById("senha").value;
+  if (user === "admin" && pass === "1234") {
+    window.location.href = "index.html";
   } else {
-    alert('Usuário ou senha inválidos! (use admin / 1234)');
+    alert("Usuário ou senha inválidos!");
   }
 }
 
 function logout() {
-  document.getElementById('main-screen').classList.remove('active');
-  document.getElementById('login-screen').classList.add('active');
+  window.location.href = "login.html";
 }
 
-// ======== DADOS ========
-let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-let estoque = JSON.parse(localStorage.getItem('estoque')) || [];
-let vendas = JSON.parse(localStorage.getItem('vendas')) || [];
+// Dados locais
+let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
+let vendas = JSON.parse(localStorage.getItem("vendas")) || [];
 
-// ======== CLIENTES ========
+// CLIENTES
 function addCliente() {
-  const nome = document.getElementById('nomeCliente').value;
-  const telefone = document.getElementById('telefoneCliente').value;
-  if (!nome) return alert('Informe o nome do cliente!');
-  clientes.push({ nome, telefone });
-  localStorage.setItem('clientes', JSON.stringify(clientes));
-  document.getElementById('nomeCliente').value = '';
-  document.getElementById('telefoneCliente').value = '';
-  atualizarListas();
+  const nome = document.getElementById("nomeCliente").value;
+  const tel = document.getElementById("telefoneCliente").value;
+  if (!nome) return alert("Informe o nome!");
+  clientes.push({ nome, tel });
+  localStorage.setItem("clientes", JSON.stringify(clientes));
+  atualizarClientes();
 }
 
-// ======== ESTOQUE ========
+function atualizarClientes() {
+  const tabela = document.querySelector("#tabelaClientes tbody");
+  if (tabela) {
+    tabela.innerHTML = clientes.map(c => `<tr><td>${c.nome}</td><td>${c.tel}</td></tr>`).join("");
+  }
+}
+
+// ESTOQUE
 function addProduto() {
-  const nome = document.getElementById('nomeProduto').value;
-  const qtd = parseInt(document.getElementById('quantidadeProduto').value);
-  const preco = parseFloat(document.getElementById('precoProduto').value);
-  if (!nome || !qtd || !preco) return alert('Preencha todos os campos!');
+  const nome = document.getElementById("nomeProduto").value;
+  const qtd = parseInt(document.getElementById("quantidadeProduto").value);
+  const preco = parseFloat(document.getElementById("precoProduto").value);
+  if (!nome || !qtd || !preco) return alert("Preencha todos os campos!");
   estoque.push({ nome, qtd, preco });
-  localStorage.setItem('estoque', JSON.stringify(estoque));
-  document.getElementById('nomeProduto').value = '';
-  document.getElementById('quantidadeProduto').value = '';
-  document.getElementById('precoProduto').value = '';
-  atualizarListas();
+  localStorage.setItem("estoque", JSON.stringify(estoque));
+  atualizarEstoque();
 }
 
-// ======== VENDAS ========
+function atualizarEstoque() {
+  const tabela = document.querySelector("#tabelaEstoque tbody");
+  if (tabela) {
+    tabela.innerHTML = estoque.map(p => `<tr><td>${p.nome}</td><td>${p.qtd}</td><td>R$ ${p.preco.toFixed(2)}</td></tr>`).join("");
+  }
+}
+
+// VENDAS
 function fazerVenda() {
-  const cliente = document.getElementById('clienteVenda').value;
-  const produto = document.getElementById('produtoVenda').value;
-  const qtdVenda = parseInt(document.getElementById('qtdVenda').value);
+  const cliente = document.getElementById("clienteVenda").value;
+  const produto = document.getElementById("produtoVenda").value;
+  const qtd = parseInt(document.getElementById("qtdVenda").value);
   const item = estoque.find(p => p.nome === produto);
-  if (!item || item.qtd < qtdVenda) return alert('Estoque insuficiente!');
-  item.qtd -= qtdVenda;
-  const total = item.preco * qtdVenda;
-  vendas.push({ cliente, produto, qtdVenda, total });
-  localStorage.setItem('estoque', JSON.stringify(estoque));
-  localStorage.setItem('vendas', JSON.stringify(vendas));
-  atualizarListas();
-  alert(`Venda realizada: R$ ${total.toFixed(2)}`);
-  document.getElementById('qtdVenda').value = '';
+  if (!item || item.qtd < qtd) return alert("Estoque insuficiente!");
+  item.qtd -= qtd;
+  const total = item.preco * qtd;
+  vendas.push({ cliente, produto, qtd, total });
+  localStorage.setItem("vendas", JSON.stringify(vendas));
+  localStorage.setItem("estoque", JSON.stringify(estoque));
+  atualizarEstoque();
+  atualizarVendas();
+  alert(`Venda registrada: R$ ${total.toFixed(2)}`);
 }
 
-// ======== VISUAL ========
-function showSection(sec) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(sec).classList.add('active');
-  document.getElementById('sectionTitle').innerText =
-    sec.charAt(0).toUpperCase() + sec.slice(1);
+function atualizarVendas() {
+  const tabela = document.querySelector("#tabelaVendas tbody");
+  if (tabela) {
+    tabela.innerHTML = vendas.map(v => `<tr><td>${v.cliente}</td><td>${v.produto}</td><td>${v.qtd}</td><td>R$ ${v.total.toFixed(2)}</td></tr>`).join("");
+  }
+  const clienteSel = document.getElementById("clienteVenda");
+  const produtoSel = document.getElementById("produtoVenda");
+  if (clienteSel && produtoSel) {
+    clienteSel.innerHTML = clientes.map(c => `<option>${c.nome}</option>`).join("");
+    produtoSel.innerHTML = estoque.map(p => `<option>${p.nome}</option>`).join("");
+  }
 }
 
-// ======== ATUALIZAÇÕES ========
-function atualizarListas() {
-  const clientesList = document.querySelector('#tabelaClientes tbody');
-  clientesList.innerHTML = clientes.map(c => `<tr><td>${c.nome}</td><td>${c.telefone}</td></tr>`).join('');
-
-  const estoqueList = document.querySelector('#tabelaEstoque tbody');
-  estoqueList.innerHTML = estoque.map(p => `<tr><td>${p.nome}</td><td>${p.qtd}</td><td>R$ ${p.preco.toFixed(2)}</td></tr>`).join('');
-
-  const vendasList = document.querySelector('#tabelaVendas tbody');
-  vendasList.innerHTML = vendas.map(v => `<tr><td>${v.cliente}</td><td>${v.produto}</td><td>${v.qtdVenda}</td><td>R$ ${v.total.toFixed(2)}</td></tr>`).join('');
-
-  const clienteSelect = document.getElementById('clienteVenda');
-  const produtoSelect = document.getElementById('produtoVenda');
-  clienteSelect.innerHTML = clientes.map(c => `<option>${c.nome}</option>`).join('');
-  produtoSelect.innerHTML = estoque.map(p => `<option>${p.nome}</option>`).join('');
+// DASHBOARD
+function atualizarDashboard() {
+  const c = document.getElementById("totalClientes");
+  const e = document.getElementById("totalProdutos");
+  const v = document.getElementById("totalVendas");
+  if (c && e && v) {
+    c.innerText = clientes.length;
+    e.innerText = estoque.length;
+    v.innerText = vendas.length;
+  }
 }
 
-function carregarDados() {
-  atualizarListas();
-}
+// AUTOLOAD
+window.onload = () => {
+  atualizarClientes();
+  atualizarEstoque();
+  atualizarVendas();
+  atualizarDashboard();
+};
