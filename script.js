@@ -1,17 +1,27 @@
-// Se já logou antes, vai direto pro dashboard
+// Redireciona automaticamente se o usuário já estiver logado
 if (window.location.pathname.includes("login.html") && localStorage.getItem("logado") === "true") {
-  window.location.href = "./index.html";
+  const path = window.location.origin + "/Sistema-PDV-pet/index.html";
+  window.location.replace(path);
 }
+
+// Bloqueia acesso às páginas internas sem login
+if (!window.location.pathname.includes("login.html") && localStorage.getItem("logado") !== "true") {
+  const path = window.location.origin + "/Sistema-PDV-pet/login.html";
+  window.location.replace(path);
+}
+
+  
 function login() {
   const user = document.getElementById("usuario").value.trim();
   const pass = document.getElementById("senha").value.trim();
 
   if (user === "admin" && pass === "1234") {
-    // Marca o login no navegador
+    // Salva login no navegador
     localStorage.setItem("logado", "true");
 
-    // Redireciona corretamente no GitHub Pages
-    window.location.href = window.location.origin + "/Sistema-PDV-pet/index.html";
+    // Redireciona corretamente no GitHub Pages (mantendo o caminho do projeto)
+    const path = window.location.origin + "/Sistema-PDV-pet/index.html";
+    window.location.replace(path);
   } else {
     alert("Usuário ou senha inválidos!");
   }
@@ -106,11 +116,14 @@ window.onload = () => {
   atualizarEstoque();
   atualizarVendas();
   atualizarDashboard();
-}
+
 function logout() {
   localStorage.removeItem("logado");
-  window.location.href = window.location.origin + "/Sistema-PDV-pet/login.html";
-};
+  const path = window.location.origin + "/Sistema-PDV-pet/login.html";
+  window.location.replace(path);
+}
+
+
 
 
 
