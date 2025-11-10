@@ -1,3 +1,7 @@
+// Se já logou antes, vai direto pro dashboard
+if (window.location.pathname.includes("login.html") && localStorage.getItem("logado") === "true") {
+  window.location.href = "./index.html";
+}
 // Login
 function login() {
   const user = document.getElementById("usuario").value.trim();
@@ -100,4 +104,5 @@ window.onload = () => {
   atualizarVendas();
   atualizarDashboard();
 };
+
 
