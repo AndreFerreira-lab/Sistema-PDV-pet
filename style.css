@@ -1,24 +1,13 @@
-/* ======= BASE ======= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
 body {
   background-color: #121212;
   color: #eee;
-  height: 100vh;
-  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  display: flex;
 }
 
-/* ======= LOGIN ======= */
-.screen {
-  display: none;
-}
-
-.screen.active {
+/* Login */
+.login-screen {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,17 +18,16 @@ body {
   background: #1e1e1e;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(255, 153, 0, 0.3);
   text-align: center;
+  box-shadow: 0 0 15px rgba(255, 153, 0, 0.3);
 }
 
 .login-box input {
-  display: block;
   width: 250px;
-  margin: 10px auto;
+  margin: 10px 0;
   padding: 10px;
-  border: none;
   border-radius: 8px;
+  border: none;
 }
 
 .login-box button {
@@ -47,89 +35,92 @@ body {
   padding: 10px;
   border: none;
   border-radius: 8px;
-  background-color: #f4b400;
+  background: #f4b400;
   color: #121212;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 .login-box button:hover {
-  background-color: #ffd84d;
+  background: #ffd84d;
 }
 
-.login-tip {
-  font-size: 12px;
-  color: #aaa;
-  margin-top: 10px;
-}
-
-/* ======= DASHBOARD ======= */
-#main-screen {
-  display: flex;
-  height: 100vh;
-}
-
-/* MENU LATERAL */
+/* Sidebar */
 .sidebar {
-  background-color: #1e1e1e;
+  background: #1f1f1f;
   width: 230px;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .sidebar h2 {
-  color: #f4b400;
   text-align: center;
+  color: #f4b400;
   margin-bottom: 30px;
 }
 
 .sidebar ul {
   list-style: none;
+  padding: 0;
 }
 
 .sidebar li {
   padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
   background: #2a2a2a;
-  text-align: center;
+  border-radius: 8px;
+  margin-bottom: 10px;
   cursor: pointer;
-  transition: 0.3s;
+  text-align: center;
 }
 
-.sidebar li:hover {
+.sidebar li:hover, .sidebar li.active {
   background: #f4b400;
   color: #121212;
 }
 
-/* CONTEÚDO */
-.content {
+/* Main content */
+.main {
+  margin-left: 260px;
+  padding: 30px;
   flex: 1;
-  padding: 20px 40px;
   overflow-y: auto;
-}
-
-header {
-  background-color: #1e1e1e;
-  padding: 15px 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
 }
 
 header h1 {
   color: #f4b400;
 }
 
-/* FORMULÁRIOS */
-.form-box {
-  background: #1e1e1e;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+/* Dashboard Cards */
+.dashboard {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 20px 0;
 }
 
+.card {
+  flex: 1;
+  min-width: 200px;
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.card h3 {
+  color: #f4b400;
+}
+
+.card p {
+  font-size: 28px;
+  margin-top: 10px;
+}
+
+/* Table and Forms */
 input, select, button {
   margin: 5px;
   padding: 10px;
@@ -137,25 +128,20 @@ input, select, button {
   border: none;
 }
 
-input, select {
-  width: 180px;
-}
-
 button {
-  background-color: #f4b400;
+  background: #f4b400;
   color: #121212;
   font-weight: bold;
-  cursor: pointer;
 }
 
 button:hover {
-  background-color: #ffd84d;
+  background: #ffd84d;
 }
 
-/* TABELAS */
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 10px;
   background: #1e1e1e;
   border-radius: 10px;
   overflow: hidden;
@@ -167,7 +153,7 @@ th, td {
 }
 
 th {
-  background-color: #2c2c2c;
+  background: #2c2c2c;
   color: #f4b400;
 }
 
@@ -175,11 +161,24 @@ td {
   border-bottom: 1px solid #333;
 }
 
-/* SEÇÕES */
-.section {
-  display: none;
-}
+/* Responsivo */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
 
-.section.active {
-  display: block;
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .main {
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  .dashboard {
+    flex-direction: column;
+  }
 }
