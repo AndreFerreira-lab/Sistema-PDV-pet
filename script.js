@@ -1,16 +1,14 @@
 // Login
 function login() {
-  const user = document.getElementById("usuario").value;
-  const pass = document.getElementById("senha").value;
+  const user = document.getElementById("usuario").value.trim();
+  const pass = document.getElementById("senha").value.trim();
+
   if (user === "admin" && pass === "1234") {
-    window.location.href = "index.html";
+    // redireciona para a página inicial (no mesmo diretório)
+    window.location.href = "./index.html";
   } else {
     alert("Usuário ou senha inválidos!");
   }
-}
-
-function logout() {
-  window.location.href = "login.html";
 }
 
 // Dados locais
@@ -102,3 +100,4 @@ window.onload = () => {
   atualizarVendas();
   atualizarDashboard();
 };
+
