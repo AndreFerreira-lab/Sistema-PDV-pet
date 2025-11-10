@@ -1,130 +1,182 @@
-// Redireciona automaticamente se o usuário já estiver logado
-if (window.location.pathname.includes("login.html") && localStorage.getItem("logado") === "true") {
-  const path = window.location.origin + "/Sistema-PDV-pet/index.html";
-  window.location.replace(path);
-}
+// ====== VARIÁVEIS ======
+let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
+let vendas = JSON.parse(localStorage.getItem("vendas")) || [];
 
-// Bloqueia acesso às páginas internas sem login
-if (!window.location.pathname.includes("login.html") && localStorage.getItem("logado") !== "true") {
-  const path = window.location.origin + "/Sistema-PDV-pet/login.html";
-  window.location.replace(path);
-}
-
-  
+// ====== LOGIN ======
 function login() {
   const user = document.getElementById("usuario").value.trim();
   const pass = document.getElementById("senha").value.trim();
 
   if (user === "admin" && pass === "1234") {
-    // Salva login no navegador
     localStorage.setItem("logado", "true");
-
-    // Redireciona corretamente no GitHub Pages (mantendo o caminho do projeto)
-    const path = window.location.origin + "/Sistema-PDV-pet/index.html";
-    window.location.replace(path);
+    document.getElementById("login-page").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    carregarDados();
   } else {
     alert("Usuário ou senha inválidos!");
   }
 }
 
+function logout() {
+  localStorage.removeItem("logado");
+  location.reload();
+}
 
-// Dados locais
-let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
-let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
-let vendas = JSON.parse(localStorage.getItem("vendas")) || [];
+// ====== NAVEGAÇÃO ======
+function mostrarPagina(id) {
+  document.querySelectorAll("main section").forEach(s => s.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
 
-// CLIENTES
+  document.querySelectorAll(".sidebar a").forEach(a => a.classList.remove("active"));
+  const link = document.getElementById("link" + id.charAt(0).toUpperCase() + id.slice(1));
+  if (link) link.classList.add("active");
+
+  atualizarDashboard();
+}
+
+// ====== CLIENTES ======
 function addCliente() {
-  const nome = document.getElementById("nomeCliente").value;
-  const tel = document.getElementById("telefoneCliente").value;
-  if (!nome) return alert("Informe o nome!");
-  clientes.push({ nome, tel });
+  const nome = document.getElementById("nomeCliente").value.trim();
+  const tel = document.getElementById("telefoneCliente").value.trim();
+  if (!nome) return alert("Informe o nome do cliente!");
+
+  clientes.push({ id: Date.now(), nome, tel });
   localStorage.setItem("clientes", JSON.stringify(clientes));
+
+  document.getElementById("nomeCliente").value = "";
+  document.getElementById("telefoneCliente").value = "";
   atualizarClientes();
+  atualizarSelects();
+  atualizarDashboard();
 }
 
 function atualizarClientes() {
-  const tabela = document.querySelector("#tabelaClientes tbody");
-  if (tabela) {
-    tabela.innerHTML = clientes.map(c => `<tr><td>${c.nome}</td><td>${c.tel}</td></tr>`).join("");
-  }
+  const tb = document.getElementById("tabelaClientes");
+  if (!tb) return;
+  tb.innerHTML = clientes.map(c => `
+    <tr>
+      <td>${c.nome}</td>
+      <td>${c.tel || ""}</td>
+      <td><button class="btn-sm btn-delete" onclick="delCliente(${c.id})">🗑</button></td>
+    </tr>
+  `).join("");
 }
 
-// ESTOQUE
+function delCliente(id) {
+  clientes = clientes.filter(c => c.id !== id);
+  localStorage.setItem("clientes", JSON.stringify(clientes));
+  atualizarClientes();
+  atualizarSelects();
+  atualizarDashboard();
+}
+
+// ====== ESTOQUE ======
 function addProduto() {
-  const nome = document.getElementById("nomeProduto").value;
-  const qtd = parseInt(document.getElementById("quantidadeProduto").value);
-  const preco = parseFloat(document.getElementById("precoProduto").value);
-  if (!nome || !qtd || !preco) return alert("Preencha todos os campos!");
-  estoque.push({ nome, qtd, preco });
+  const nome = document.getElementById("nomeProduto").value.trim();
+  const qtd = parseInt(document.getElementById("quantidadeProduto").value) || 0;
+  const preco = parseFloat(document.getElementById("precoProduto").value) || 0;
+
+  if (!nome) return alert("Informe o nome do produto!");
+
+  estoque.push({ id: Date.now(), nome, qtd, preco });
   localStorage.setItem("estoque", JSON.stringify(estoque));
+
+  document.getElementById("nomeProduto").value = "";
+  document.getElementById("quantidadeProduto").value = "";
+  document.getElementById("precoProduto").value = "";
   atualizarEstoque();
+  atualizarSelects();
+  atualizarDashboard();
 }
 
 function atualizarEstoque() {
-  const tabela = document.querySelector("#tabelaEstoque tbody");
-  if (tabela) {
-    tabela.innerHTML = estoque.map(p => `<tr><td>${p.nome}</td><td>${p.qtd}</td><td>R$ ${p.preco.toFixed(2)}</td></tr>`).join("");
-  }
+  const tb = document.getElementById("tabelaEstoque");
+  if (!tb) return;
+  tb.innerHTML = estoque.map(p => `
+    <tr>
+      <td>${p.nome}</td>
+      <td>${p.qtd}</td>
+      <td>R$ ${p.preco.toFixed(2)}</td>
+      <td><button class="btn-sm btn-delete" onclick="delProduto(${p.id})">🗑</button></td>
+    </tr>
+  `).join("");
 }
 
-// VENDAS
-function fazerVenda() {
-  const cliente = document.getElementById("clienteVenda").value;
-  const produto = document.getElementById("produtoVenda").value;
-  const qtd = parseInt(document.getElementById("qtdVenda").value);
-  const item = estoque.find(p => p.nome === produto);
-  if (!item || item.qtd < qtd) return alert("Estoque insuficiente!");
-  item.qtd -= qtd;
-  const total = item.preco * qtd;
-  vendas.push({ cliente, produto, qtd, total });
-  localStorage.setItem("vendas", JSON.stringify(vendas));
+function delProduto(id) {
+  estoque = estoque.filter(p => p.id !== id);
   localStorage.setItem("estoque", JSON.stringify(estoque));
   atualizarEstoque();
-  atualizarVendas();
-  alert(`Venda registrada: R$ ${total.toFixed(2)}`);
+  atualizarSelects();
+  atualizarDashboard();
 }
 
-function atualizarVendas() {
-  const tabela = document.querySelector("#tabelaVendas tbody");
-  if (tabela) {
-    tabela.innerHTML = vendas.map(v => `<tr><td>${v.cliente}</td><td>${v.produto}</td><td>${v.qtd}</td><td>R$ ${v.total.toFixed(2)}</td></tr>`).join("");
-  }
-  const clienteSel = document.getElementById("clienteVenda");
-  const produtoSel = document.getElementById("produtoVenda");
-  if (clienteSel && produtoSel) {
-    clienteSel.innerHTML = clientes.map(c => `<option>${c.nome}</option>`).join("");
-    produtoSel.innerHTML = estoque.map(p => `<option>${p.nome}</option>`).join("");
-  }
-}
+// ====== VENDAS ======
+function fazerVenda() {
+  const cliente = document.getElementById("clienteVenda").value;
+  const produtoNome = document.getElementById("produtoVenda").value;
+  const qtd = parseInt(document.getElementById("qtdVenda").value);
 
-// DASHBOARD
-function atualizarDashboard() {
-  const c = document.getElementById("totalClientes");
-  const e = document.getElementById("totalProdutos");
-  const v = document.getElementById("totalVendas");
-  if (c && e && v) {
-    c.innerText = clientes.length;
-    e.innerText = estoque.length;
-    v.innerText = vendas.length;
-  }
-}
+  if (!cliente || !produtoNome || qtd <= 0) return alert("Preencha todos os campos!");
 
-// AUTOLOAD
-window.onload = () => {
-  atualizarClientes();
+  const produto = estoque.find(p => p.nome === produtoNome);
+  if (!produto || produto.qtd < qtd) return alert("Estoque insuficiente!");
+
+  produto.qtd -= qtd;
+  const total = produto.preco * qtd;
+  vendas.push({ id: Date.now(), cliente, produto: produtoNome, qtd, total });
+
+  localStorage.setItem("vendas", JSON.stringify(vendas));
+  localStorage.setItem("estoque", JSON.stringify(estoque));
+
   atualizarEstoque();
   atualizarVendas();
   atualizarDashboard();
 
-function logout() {
-  localStorage.removeItem("logado");
-  const path = window.location.origin + "/Sistema-PDV-pet/login.html";
-  window.location.replace(path);
+  alert(`Venda registrada com sucesso!\nTotal: R$ ${total.toFixed(2)}`);
 }
 
+function atualizarVendas() {
+  const tb = document.getElementById("tabelaVendas");
+  if (!tb) return;
+  tb.innerHTML = vendas.map(v => `
+    <tr>
+      <td>${v.cliente}</td>
+      <td>${v.produto}</td>
+      <td>${v.qtd}</td>
+      <td>R$ ${v.total.toFixed(2)}</td>
+    </tr>
+  `).join("");
+}
 
+// ====== DASHBOARD ======
+function atualizarDashboard() {
+  document.getElementById("totalClientes").innerText = clientes.length;
+  document.getElementById("totalProdutos").innerText = estoque.reduce((s, p) => s + p.qtd, 0);
+  document.getElementById("totalVendas").innerText = vendas.length;
+}
 
+function atualizarSelects() {
+  const sc = document.getElementById("clienteVenda");
+  const sp = document.getElementById("produtoVenda");
 
+  sc.innerHTML = '<option value="">-- selecione --</option>' + clientes.map(c => `<option>${c.nome}</option>`).join("");
+  sp.innerHTML = '<option value="">-- selecione --</option>' + estoque.map(p => `<option>${p.nome}</option>`).join("");
+}
 
+function carregarDados() {
+  atualizarClientes();
+  atualizarEstoque();
+  atualizarVendas();
+  atualizarSelects();
+  atualizarDashboard();
+}
 
+// ====== AUTO LOGIN ======
+window.addEventListener("load", () => {
+  if (localStorage.getItem("logado") === "true") {
+    document.getElementById("login-page").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    carregarDados();
+  }
+});
