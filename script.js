@@ -2,18 +2,21 @@
 if (window.location.pathname.includes("login.html") && localStorage.getItem("logado") === "true") {
   window.location.href = "./index.html";
 }
-// Login
 function login() {
   const user = document.getElementById("usuario").value.trim();
   const pass = document.getElementById("senha").value.trim();
 
   if (user === "admin" && pass === "1234") {
-    // redireciona para a página inicial (no mesmo diretório)
-    window.location.href = "./index.html";
+    // Marca o login no navegador
+    localStorage.setItem("logado", "true");
+
+    // Redireciona corretamente no GitHub Pages
+    window.location.href = window.location.origin + "/Sistema-PDV-pet/index.html";
   } else {
     alert("Usuário ou senha inválidos!");
   }
 }
+
 
 // Dados locais
 let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
@@ -103,6 +106,12 @@ window.onload = () => {
   atualizarEstoque();
   atualizarVendas();
   atualizarDashboard();
+}
+function logout() {
+  localStorage.removeItem("logado");
+  window.location.href = window.location.origin + "/Sistema-PDV-pet/login.html";
 };
+
+
 
 
