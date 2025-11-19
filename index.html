@@ -74,65 +74,89 @@
 
       <!-- CLIENTES -->
       <section id="clientes" class="hidden">
-        <h1 class="section-title">Clientes</h1>
+  <h1 class="section-title">Clientes</h1>
 
-        <form id="formCliente" onsubmit="event.preventDefault(); addCliente();">
-          <label>Nome</label>
-          <input id="nomeCliente" type="text" required />
+  <form onsubmit="event.preventDefault(); addCliente();" class="form-grid">
 
-          <label>Telefone</label>
-          <input id="telefoneCliente" type="text" />
+    <div>
+      <label>Nome</label>
+      <input id="nomeCliente" type="text" required>
+    </div>
 
-          <label>Endereço</label>
-          <input id="enderecoCliente" type="text" />
+    <div>
+      <label>Telefone</label>
+      <input id="telefoneCliente" type="text" placeholder="(11) 99999-9999">
+    </div>
 
-          <label>Número</label>
-          <input id="numeroCliente" type="text" />
+    <div>
+      <label>Endereço</label>
+      <input id="enderecoCliente" type="text">
+    </div>
 
-          <label>Bairro</label>
-          <input id="bairroCliente" type="text" />
+    <div>
+      <label>Número</label>
+      <input id="numeroCliente" type="text">
+    </div>
 
-          <label>Cidade</label>
-          <input id="cidadeCliente" type="text" />
+    <div>
+      <label>Bairro</label>
+      <input id="bairroCliente" type="text">
+    </div>
 
-          <label>CEP</label>
-          <input id="cepCliente" type="text" />
+    <div>
+      <label>Cidade</label>
+      <input id="cidadeCliente" type="text">
+    </div>
 
-          <label>Ponto de Referência</label>
-          <input id="referenciaCliente" type="text" />
+    <div>
+      <label>CEP</label>
+      <input id="cepCliente" type="text" placeholder="00000-000">
+    </div>
 
-          <label>Tipo de Cliente</label>
-          <select id="tipoCliente">
-            <option value="Residencial">Residencial</option>
-            <option value="Comercial">Comercial</option>
-          </select>
+    <div>
+      <label>Ponto de Referência</label>
+      <input id="referenciaCliente" type="text">
+    </div>
 
-          <label>Pagamento Preferido</label>
-          <select id="pagamentoPreferido">
-            <option>Dinheiro</option>
-            <option>Pix</option>
-            <option>Cartão Débito</option>
-            <option>Cartão Crédito</option>
-          </select>
+    <div>
+      <label>Tipo de Cliente</label>
+      <select id="tipoCliente">
+        <option value="Residencial">Residencial</option>
+        <option value="Comercial">Comercial</option>
+      </select>
+    </div>
 
-          <label>Observações</label>
-          <input id="obsCliente" type="text" />
+    <div>
+      <label>Pagamento Preferido</label>
+      <select id="pagamentoPreferido">
+        <option>Dinheiro</option>
+        <option>Pix</option>
+        <option>Cartão Débito</option>
+        <option>Cartão Crédito</option>
+      </select>
+    </div>
 
-          <button type="submit">Salvar</button>
-        </form>
+    <div class="full">
+      <label>Observações</label>
+      <input id="obsCliente" type="text">
+    </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Telefone</th>
-              <th>Bairro</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="tabelaClientes"></tbody>
-        </table>
-      </section>
+    <button class="full" type="submit">Salvar</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Bairro</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody id="tabelaClientes"></tbody>
+  </table>
+</section>
+
 
       <!-- ESTOQUE -->
       <section id="estoque" class="hidden">
@@ -190,3 +214,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
