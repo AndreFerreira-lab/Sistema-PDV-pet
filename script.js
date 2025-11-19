@@ -52,19 +52,33 @@ let vendas = JSON.parse(localStorage.getItem("vendas")) || [];
 
 /* CLIENTES */
 function addCliente() {
-  const nome = $("nomeCliente").value.trim();
-  if (!nome) return alert("Nome obrigatório!");
 
-  clientes.push({ id: Date.now(), nome, tel: $("telefoneCliente").value });
+  const cliente = {
+    id: Date.now(),
+    nome: document.getElementById("nomeCliente").value.trim(),
+    tel: document.getElementById("telefoneCliente").value.trim(),
+    endereco: document.getElementById("enderecoCliente").value.trim(),
+    numero: document.getElementById("numeroCliente").value.trim(),
+    bairro: document.getElementById("bairroCliente").value.trim(),
+    cidade: document.getElementById("cidadeCliente").value.trim(),
+    cep: document.getElementById("cepCliente").value.trim(),
+    referencia: document.getElementById("referenciaCliente").value.trim(),
+    tipo: document.getElementById("tipoCliente").value,
+    pagamento: document.getElementById("pagamentoPreferido").value,
+    obs: document.getElementById("obsCliente").value.trim()
+  };
+
+  if (!cliente.nome) return alert("Informe o nome!");
+
+  clientes.push(cliente);
   localStorage.setItem("clientes", JSON.stringify(clientes));
 
-  $("nomeCliente").value = "";
-  $("telefoneCliente").value = "";
-
+  limparCamposCliente();
   atualizarClientes();
   atualizarSelects();
   atualizarDashboard();
 }
+
 
 function atualizarClientes() {
   $("tabelaClientes").innerHTML = clientes
@@ -182,4 +196,5 @@ function carregarDados() {
   atualizarSelects();
   atualizarDashboard();
 }
+
 
