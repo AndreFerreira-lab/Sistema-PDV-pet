@@ -34,136 +34,167 @@
 
 <!-- ========== APLICAÇÃO ========== -->
 <div id="app" class="hidden">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <h2>🍕 Pizzaria Dona Jô</h2>
-    <a href="#" onclick="mostrarPagina('dashboard')" id="linkDashboard" class="active"><i class="fa fa-home"></i> Início</a>
-    <a href="#" onclick="mostrarPagina('clientes')" id="linkClientes"><i class="fa fa-users"></i> Clientes</a>
-    <a href="#" onclick="mostrarPagina('estoque')" id="linkEstoque"><i class="fa fa-box"></i> Estoque</a>
-    <a href="#" onclick="mostrarPagina('vendas')" id="linkVendas"><i class="fa fa-money-bill"></i> Vendas</a>
-    <a href="#" onclick="logout()"><i class="fa fa-right-from-bracket"></i> Sair</a>
+    <a onclick="mostrarPagina('dashboard')" id="linkDashboard" class="active"><i class="fa fa-home"></i> Início</a>
+    <a onclick="mostrarPagina('clientes')" id="linkClientes"><i class="fa fa-users"></i> Clientes</a>
+    <a onclick="mostrarPagina('estoque')" id="linkEstoque"><i class="fa fa-box"></i> Estoque</a>
+    <a onclick="mostrarPagina('vendas')" id="linkVendas"><i class="fa fa-money-bill"></i> Vendas</a>
+    <a onclick="logout()"><i class="fa fa-right-from-bracket"></i> Sair</a>
   </aside>
 
-  <!-- CONTEÚDO -->
   <main class="main-content">
 
     <!-- DASHBOARD -->
-    <section id="dashboard">
-      <h1 class="section-title">🍕 Dashboard – Pizzaria Dona Jô</h1>
+<section id="dashboard">
+  <h1 class="section-title">🍕 Dashboard – Pizzaria Dona Jô</h1>
 
-      <div class="card-container">
-        <div class="card">
-          <h3>👥 Clientes</h3>
-          <p id="totalClientes">0</p>
-        </div>
+  <div class="card-container">
+    <div class="card">
+      <h3>👥 Clientes</h3>
+      <p id="totalClientes">0</p>
+    </div>
 
-        <div class="card">
-          <h3>📦 Produtos</h3>
-          <p id="totalProdutos">0</p>
-        </div>
+    <div class="card">
+      <h3>📦 Produtos</h3>
+      <p id="totalProdutos">0</p>
+    </div>
 
-        <div class="card">
-          <h3>💰 Vendas</h3>
-          <p id="totalVendas">0</p>
-        </div>
-      </div>
+    <div class="card">
+      <h3>💰 Vendas</h3>
+      <p id="totalVendas">0</p>
+    </div>
+  </div>
 
-      <p class="dashboard-subtitle">
-        🔥 Bem-vindo ao sistema da <b>Pizzaria Dona Jô</b>!  
-        Seu painel está pronto para começar a vender muito hoje! 😎🍕
-      </p>
-    </section>
+  <p class="dashboard-subtitle">
+    🔥 Bem-vindo ao sistema da <b>Pizzaria Dona Jô</b>!  
+    Seu painel está pronto para começar a vender muito hoje! 😎🍕
+  </p>
+</section>
 
     <!-- CLIENTES -->
-    <section id="clientes" class="hidden">
-      <h1 class="section-title">Clientes</h1>
+<section id="clientes" class="hidden">
+  <h1 class="section-title">Clientes</h1>
 
-      <form onsubmit="event.preventDefault(); addCliente();">
+<form onsubmit="event.preventDefault(); addCliente();">
 
-        <label>Nome</label>
-        <input id="nomeCliente" type="text">
+  <label>Nome</label>
+  <input id="nomeCliente" type="text">
 
-        <label>Telefone</label>
-        <input id="telefoneCliente" type="text" placeholder="(11) 99999-9999">
+  <label>Telefone</label>
+  <input id="telefoneCliente" type="text">
 
-        <label>Endereço</label>
-        <input id="enderecoCliente" type="text" placeholder="Rua / Avenida">
+  <label>Endereço</label>
+  <input id="enderecoCliente" type="text">
 
-        <label>Número</label>
-        <input id="numeroCliente" type="text">
+  <label>Número</label>
+  <input id="numeroCliente" type="text">
 
-        <label>Bairro</label>
-        <input id="bairroCliente" type="text">
+  <label>Bairro</label>
+  <input id="bairroCliente" type="text">
 
-        <label>Cidade</label>
-        <input id="cidadeCliente" type="text">
+  <label>Cidade</label>
+  <input id="cidadeCliente" type="text">
 
-        <label>CEP</label>
-        <input id="cepCliente" type="text" placeholder="00000-000">
+  <label>CEP</label>
+  <input id="cepCliente" type="text">
 
-        <label>Ponto de Referência</label>
-        <input id="referenciaCliente" type="text" placeholder="Ex: perto da praça">
+  <label>Ponto de Referência</label>
+  <input id="referenciaCliente" type="text">
 
-        <label>Tipo de Cliente</label>
-        <select id="tipoCliente">
-            <option value="Residencial">Residencial</option>
-            <option value="Comercial">Comercial</option>
-        </select>
+  <label>Tipo de Cliente</label>
+  <select id="tipoCliente">
+      <option value="Residencial">Residencial</option>
+      <option value="Comercial">Comercial</option>
+  </select>
 
-        <label>Pagamento Preferido</label>
-        <select id="pagamentoPreferido">
-            <option>Dinheiro</option>
-            <option>Pix</option>
-            <option>Cartão Débito</option>
-            <option>Cartão Crédito</option>
-        </select>
+  <label>Pagamento Preferido</label>
+  <select id="pagamentoPreferido">
+      <option>Dinheiro</option>
+      <option>Pix</option>
+      <option>Cartão Débito</option>
+      <option>Cartão Crédito</option>
+  </select>
 
-        <label>Observações</label>
-        <input id="obsCliente" type="text" placeholder="Alergias, instruções, etc.">
+  <label>Observações</label>
+  <input id="obsCliente" type="text">
 
-        <button type="submit">Salvar</button>
-      </form>
+  <button>Salvar</button>
+</form>
 
-    </section> <!-- ✔ FECHAMENTO CORRIGIDO -->
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Bairro</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tabelaClientes"></tbody>
+  </table>
+
+</section>
 
     <!-- ESTOQUE -->
-    <section id="estoque" class="hidden">
-      <h1 class="section-title">Estoque</h1>
+<section id="estoque" class="hidden">
+  <h1 class="section-title">Estoque</h1>
 
-      <form onsubmit="event.preventDefault(); addProduto();">
-        <label>Produto</label><input id="nomeProduto" type="text">
-        <label>Quantidade</label><input id="quantidadeProduto" type="number">
-        <label>Preço</label><input id="precoProduto" type="number" step="0.01">
-        <button type="submit">Salvar</button>
-      </form>
+  <form onsubmit="event.preventDefault(); addProduto();">
+    <label>Produto</label>
+    <input id="nomeProduto" type="text">
 
-      <table>
-        <thead>
-          <tr><th>Produto</th><th>Qtd</th><th>Preço</th><th></th></tr>
-        </thead>
-        <tbody id="tabelaEstoque"></tbody>
-      </table>
-    </section>
+    <label>Quantidade</label>
+    <input id="quantidadeProduto" type="number">
+
+    <label>Preço</label>
+    <input id="precoProduto" type="number" step="0.01">
+
+    <button>Salvar</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th>Qtd</th>
+        <th>Preço</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tabelaEstoque"></tbody>
+  </table>
+</section>
 
     <!-- VENDAS -->
-    <section id="vendas" class="hidden">
-      <h1 class="section-title">Vendas</h1>
+<section id="vendas" class="hidden">
+  <h1 class="section-title">Vendas</h1>
 
-      <form onsubmit="event.preventDefault(); fazerVenda();">
-        <label>Cliente</label><select id="clienteVenda"></select>
-        <label>Produto</label><select id="produtoVenda"></select>
-        <label>Quantidade</label><input id="qtdVenda" type="number" min="1" value="1">
-        <button>Registrar Venda</button>
-      </form>
+  <form onsubmit="event.preventDefault(); fazerVenda();">
+    <label>Cliente</label>
+    <select id="clienteVenda"></select>
 
-      <table>
-        <thead>
-          <tr><th>Cliente</th><th>Produto</th><th>Qtd</th><th>Total</th></tr>
-        </thead>
-        <tbody id="tabelaVendas"></tbody>
-      </table>
-    </section>
+    <label>Produto</label>
+    <select id="produtoVenda"></select>
+
+    <label>Quantidade</label>
+    <input id="qtdVenda" type="number" min="1" value="1">
+
+    <button>Registrar Venda</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Produto</th>
+        <th>Qtd</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="tabelaVendas"></tbody>
+  </table>
+</section>
 
   </main>
 </div>
