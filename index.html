@@ -3,63 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PDV Pizzaria</title>
-<style>
-/* =============== ESTILO GLOBAL =============== */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:#121212;color:#fff;min-height:100vh;}
-.hidden{display:none!important;}
+<title>Pizzaria Dona Jô - PDV</title>
 
-/* =============== LOGIN =============== */
-#login-page{display:flex;justify-content:center;align-items:center;height:100vh;background:#121212;}
-.login-container{width:360px;background:#1e1e1e;border:2px solid #ffb300;padding:36px;border-radius:12px;box-shadow:0 6px 30px rgba(255,179,0,0.12);text-align:center;}
-.login-container h1{color:#ffb300;margin-bottom:18px;font-size:1.6rem;}
-.login-container input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #333;background:#2a2a2a;color:#fff;}
-.login-container input:focus{outline:none;border-color:#ffb300;}
-.login-container button{width:100%;padding:10px;margin-top:12px;border-radius:8px;border:none;background:#ffb300;color:#000;font-weight:700;cursor:pointer;}
-.login-container button:hover{background:#ffd84d;}
-.login-tip{color:#ccc;font-size:0.9rem;margin-top:10px;}
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-/* =============== MENU LATERAL =============== */
-.sidebar{position:fixed;left:0;top:0;width:220px;height:100%;background:#171717;border-right:2px solid #ffb300;padding-top:28px;}
-.sidebar h2{color:#ffb300;text-align:center;margin-bottom:22px;font-size:1.2rem;}
-.sidebar a{display:block;padding:12px 18px;color:#ddd;text-decoration:none;margin:6px 12px;border-radius:8px;transition:0.15s;font-weight:600;}
-.sidebar a:hover,.sidebar a.active{background:#ffb300;color:#000;}
-
-/* =============== CONTEÚDO PRINCIPAL =============== */
-.main-content{margin-left:220px;padding:36px;}
-.section-title{color:#ffb300;font-size:1.5rem;margin-bottom:16px;}
-.card-container{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:18px;}
-.card{flex:1;min-width:220px;background:#1f1f1f;border:1px solid #ffb300;border-radius:10px;padding:18px;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,0.5);}
-.card h3{color:#ffb300;margin-bottom:8px;}
-.card p{font-size:1.6rem;font-weight:700;}
-form{background:#1e1e1e;padding:16px;border-radius:10px;margin-bottom:16px;}
-form label{display:block;color:#ffb300;margin-bottom:6px;font-weight:600;}
-input,select{width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #333;background:#2a2a2a;color:#fff;}
-button{padding:10px 14px;border-radius:8px;border:none;background:#ffb300;color:#000;font-weight:700;cursor:pointer;}
-button:hover{background:#ffd84d;}
-table{width:100%;border-collapse:collapse;margin-top:12px;background:#1e1e1e;border-radius:8px;overflow:hidden;}
-th,td{padding:12px;text-align:left;}
-th{background:#ffb300;color:#000;}
-td{border-bottom:1px solid #2b2b2b;}
-tr:hover td{background:#292929;}
-.btn-sm{padding:6px 8px;border-radius:6px;font-weight:600;cursor:pointer;border:none;}
-.btn-edit{background:#2a9d8f;color:#fff;}
-.btn-delete{background:#ef4444;color:#fff;}
-@media(max-width:768px){
-.sidebar{position:relative;width:100%;height:auto;display:flex;justify-content:space-around;padding:10px;border-bottom:2px solid #ffb300;}
-.main-content{margin-left:0;padding:20px;}
-.card-container{flex-direction:column;}
-.login-container{width:90%;padding:28px;}
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- ========== SPLASH ========== -->
+<!-- SPLASH SCREEN / CARREGAMENTO -->
+<div id="splash">
+    <div class="splash-content">
+        <h1 class="splash-title">🍕 Pizzaria Dona Jô</h1>
+        <p class="splash-sub">Carregando o sistema...</p>
+        <div class="loader"></div>
+    </div>
+</div>
+
+
 <!-- ========== LOGIN PAGE ========== -->
-<div id="login-page">
-  <div class="login-container">
-    <h1>🍕 Dona Jô delivery</h1>
+<div id="login-page" class="hidden">
+  <div class="login-container fade-in">
+    <h1>🍕 Dona Jô Delivery</h1>
     <input id="usuario" type="text" placeholder="Usuário">
     <input id="senha" type="password" placeholder="Senha">
     <button onclick="login()">Entrar</button>
@@ -71,35 +38,91 @@ tr:hover td{background:#292929;}
 <div id="app" class="hidden">
   <aside class="sidebar">
     <h2>🍕 Pizzaria Dona Jô</h2>
-    <a href="#" onclick="mostrarPagina('dashboard')" id="linkDashboard" class="active">Início</a>
-    <a href="#" onclick="mostrarPagina('clientes')" id="linkClientes">Clientes</a>
-    <a href="#" onclick="mostrarPagina('estoque')" id="linkEstoque">Estoque</a>
-    <a href="#" onclick="mostrarPagina('vendas')" id="linkVendas">Vendas</a>
-    <a href="#" onclick="logout()">Sair</a>
+    <a href="#" onclick="mostrarPagina('dashboard')" id="linkDashboard" class="active"><i class="fa fa-home"></i> Início</a>
+    <a href="#" onclick="mostrarPagina('clientes')" id="linkClientes"><i class="fa fa-users"></i> Clientes</a>
+    <a href="#" onclick="mostrarPagina('estoque')" id="linkEstoque"><i class="fa fa-box"></i> Estoque</a>
+    <a href="#" onclick="mostrarPagina('vendas')" id="linkVendas"><i class="fa fa-money-bill"></i> Vendas</a>
+    <a href="#" onclick="logout()"><i class="fa fa-right-from-bracket"></i> Sair</a>
   </aside>
 
   <main class="main-content">
-    <!-- DASHBOARD -->
-    <section id="dashboard">
-      <h1 class="section-title">Dashboard</h1>
-      <div class="card-container">
-        <div class="card"><h3>👥 Clientes</h3><p id="totalClientes">0</p></div>
-        <div class="card"><h3>📦 Produtos</h3><p id="totalProdutos">0</p></div>
-        <div class="card"><h3>💰 Vendas</h3><p id="totalVendas">0</p></div>
-      </div>
-      <p>Bem-vindo! Use o menu para navegar entre as seções.</p>
-    </section>
+
+ <!-- DASHBOARD -->
+<section id="dashboard">
+  <h1 class="section-title">🍕 Dashboard – Pizzaria Dona Jô</h1>
+
+  <div class="card-container">
+    <div class="card">
+      <h3>👥 Clientes</h3>
+      <p id="totalClientes">0</p>
+    </div>
+
+    <div class="card">
+      <h3>📦 Produtos</h3>
+      <p id="totalProdutos">0</p>
+    </div>
+
+    <div class="card">
+      <h3>💰 Vendas</h3>
+      <p id="totalVendas">0</p>
+    </div>
+  </div>
+
+  <p class="dashboard-subtitle">
+    🔥 Bem-vindo ao sistema da <b>Pizzaria Dona Jô</b>!  
+    Seu painel está pronto para começar a vender muito hoje! 😎🍕
+  </p>
+</section>
 
     <!-- CLIENTES -->
     <section id="clientes" class="hidden">
       <h1 class="section-title">Clientes</h1>
       <form onsubmit="event.preventDefault(); addCliente();">
-        <label>Nome</label><input id="nomeCliente" type="text">
-        <label>Telefone</label><input id="telefoneCliente" type="text">
-        <button type="submit">Salvar</button>
-      </form>
-      <table><thead><tr><th>Nome</th><th>Telefone</th><th>Ações</th></tr></thead><tbody id="tabelaClientes"></tbody></table>
-    </section>
+
+    <label>Nome</label>
+    <input id="nomeCliente" type="text">
+
+    <label>Telefone</label>
+    <input id="telefoneCliente" type="text" placeholder="(11) 99999-9999">
+
+    <label>Endereço</label>
+    <input id="enderecoCliente" type="text" placeholder="Rua / Avenida">
+
+    <label>Número</label>
+    <input id="numeroCliente" type="text">
+
+    <label>Bairro</label>
+    <input id="bairroCliente" type="text">
+
+    <label>Cidade</label>
+    <input id="cidadeCliente" type="text">
+
+    <label>CEP</label>
+    <input id="cepCliente" type="text" placeholder="00000-000">
+
+    <label>Ponto de Referência</label>
+    <input id="referenciaCliente" type="text" placeholder="Ex: perto da praça">
+
+    <label>Tipo de Cliente</label>
+    <select id="tipoCliente">
+        <option value="Residencial">Residencial</option>
+        <option value="Comercial">Comercial</option>
+    </select>
+
+    <label>Pagamento Preferido</label>
+    <select id="pagamentoPreferido">
+        <option>Dinheiro</option>
+        <option>Pix</option>
+        <option>Cartão Débito</option>
+        <option>Cartão Crédito</option>
+    </select>
+
+    <label>Observações</label>
+    <input id="obsCliente" type="text" placeholder="Alergias, instruções, etc.">
+
+    <button type="submit">Salvar</button>
+</form>
+
 
     <!-- ESTOQUE -->
     <section id="estoque" class="hidden">
@@ -107,136 +130,30 @@ tr:hover td{background:#292929;}
       <form onsubmit="event.preventDefault(); addProduto();">
         <label>Produto</label><input id="nomeProduto" type="text">
         <label>Quantidade</label><input id="quantidadeProduto" type="number">
-        <label>Preço (R$)</label><input id="precoProduto" type="number" step="0.01">
+        <label>Preço</label><input id="precoProduto" type="number" step="0.01">
         <button type="submit">Salvar</button>
       </form>
-      <table><thead><tr><th>Produto</th><th>Qtd</th><th>Preço</th><th>Ações</th></tr></thead><tbody id="tabelaEstoque"></tbody></table>
+
+      <table><thead><tr><th>Produto</th><th>Qtd</th><th>Preço</th><th></th></tr></thead><tbody id="tabelaEstoque"></tbody></table>
     </section>
 
     <!-- VENDAS -->
     <section id="vendas" class="hidden">
       <h1 class="section-title">Vendas</h1>
+
       <form onsubmit="event.preventDefault(); fazerVenda();">
         <label>Cliente</label><select id="clienteVenda"></select>
         <label>Produto</label><select id="produtoVenda"></select>
         <label>Quantidade</label><input id="qtdVenda" type="number" min="1" value="1">
-        <button type="submit">Registrar Venda</button>
+        <button>Registrar Venda</button>
       </form>
+
       <table><thead><tr><th>Cliente</th><th>Produto</th><th>Qtd</th><th>Total</th></tr></thead><tbody id="tabelaVendas"></tbody></table>
     </section>
+
   </main>
 </div>
 
-<script>
-/* ======= LOGIN ======= */
-function login(){
- const user=document.getElementById("usuario").value.trim();
- const pass=document.getElementById("senha").value.trim();
- if(user==="admin"&&pass==="1234"){
-   localStorage.setItem("logado","true");
-   document.getElementById("login-page").classList.add("hidden");
-   document.getElementById("app").classList.remove("hidden");
-   carregarDados();
- } else alert("Usuário ou senha inválidos!");
-}
-function logout(){localStorage.removeItem("logado");location.reload();}
-
-/* ======= NAVEGAÇÃO ======= */
-function mostrarPagina(id){
- document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
- document.getElementById(id).classList.remove("hidden");
- document.querySelectorAll(".sidebar a").forEach(a=>a.classList.remove("active"));
- const link=document.getElementById("link"+id.charAt(0).toUpperCase()+id.slice(1));
- if(link)link.classList.add("active");
- atualizarDashboard();
-}
-
-/* ======= DADOS ======= */
-let clientes=JSON.parse(localStorage.getItem("clientes"))||[];
-let estoque=JSON.parse(localStorage.getItem("estoque"))||[];
-let vendas=JSON.parse(localStorage.getItem("vendas"))||[];
-
-/* ======= CLIENTES ======= */
-function addCliente(){
- const n=document.getElementById("nomeCliente").value.trim();
- const t=document.getElementById("telefoneCliente").value.trim();
- if(!n)return alert("Informe o nome");
- clientes.push({id:Date.now(),nome:n,tel:t});
- localStorage.setItem("clientes",JSON.stringify(clientes));
- document.getElementById("nomeCliente").value="";
- document.getElementById("telefoneCliente").value="";
- atualizarClientes(); atualizarSelects(); atualizarDashboard();
-}
-function atualizarClientes(){
- const tb=document.getElementById("tabelaClientes");
- tb.innerHTML=clientes.map(c=>`<tr><td>${c.nome}</td><td>${c.tel||""}</td><td><button class='btn-sm btn-delete' onclick='delCliente(${c.id})'>🗑</button></td></tr>`).join("");
-}
-function delCliente(id){clientes=clientes.filter(c=>c.id!==id);localStorage.setItem("clientes",JSON.stringify(clientes));atualizarClientes();atualizarSelects();atualizarDashboard();}
-
-/* ======= ESTOQUE ======= */
-function addProduto(){
- const nome=document.getElementById("nomeProduto").value.trim();
- const qtd=parseInt(document.getElementById("quantidadeProduto").value)||0;
- const preco=parseFloat(document.getElementById("precoProduto").value)||0;
- if(!nome)return alert("Informe o nome do produto");
- estoque.push({id:Date.now(),nome,qtd,preco});
- localStorage.setItem("estoque",JSON.stringify(estoque));
- document.getElementById("nomeProduto").value="";
- document.getElementById("quantidadeProduto").value="";
- document.getElementById("precoProduto").value="";
- atualizarEstoque(); atualizarSelects(); atualizarDashboard();
-}
-function atualizarEstoque(){
- const tb=document.getElementById("tabelaEstoque");
- tb.innerHTML=estoque.map(p=>`<tr><td>${p.nome}</td><td>${p.qtd}</td><td>R$${p.preco.toFixed(2)}</td><td><button class='btn-sm btn-delete' onclick='delProduto(${p.id})'>🗑</button></td></tr>`).join("");
-}
-function delProduto(id){estoque=estoque.filter(p=>p.id!==id);localStorage.setItem("estoque",JSON.stringify(estoque));atualizarEstoque();atualizarSelects();atualizarDashboard();}
-
-/* ======= VENDAS ======= */
-function fazerVenda(){
- const cliente=document.getElementById("clienteVenda").value;
- const produtoNome=document.getElementById("produtoVenda").value;
- const qtd=parseInt(document.getElementById("qtdVenda").value);
- if(!cliente||!produtoNome||qtd<=0)return alert("Preencha os campos corretamente");
- const produto=estoque.find(p=>p.nome===produtoNome);
- if(!produto||produto.qtd<qtd)return alert("Estoque insuficiente");
- produto.qtd-=qtd;
- const total=produto.preco*qtd;
- vendas.push({id:Date.now(),cliente,produto:produtoNome,qtd,total});
- localStorage.setItem("vendas",JSON.stringify(vendas));
- localStorage.setItem("estoque",JSON.stringify(estoque));
- atualizarEstoque(); atualizarVendas(); atualizarDashboard();
- alert("Venda registrada: R$ "+total.toFixed(2));
-}
-function atualizarVendas(){
- const tb=document.getElementById("tabelaVendas");
- tb.innerHTML=vendas.map(v=>`<tr><td>${v.cliente}</td><td>${v.produto}</td><td>${v.qtd}</td><td>R$${v.total.toFixed(2)}</td></tr>`).join("");
-}
-
-/* ======= DASHBOARD ======= */
-function atualizarDashboard(){
- document.getElementById("totalClientes").textContent=clientes.length;
- document.getElementById("totalProdutos").textContent=estoque.reduce((a,b)=>a+b.qtd,0);
- document.getElementById("totalVendas").textContent=vendas.length;
-}
-function atualizarSelects(){
- const sc=document.getElementById("clienteVenda"),sp=document.getElementById("produtoVenda");
- sc.innerHTML='<option value="">--selecione--</option>'+clientes.map(c=>`<option>${c.nome}</option>`).join("");
- sp.innerHTML='<option value="">--selecione--</option>'+estoque.map(p=>`<option>${p.nome}</option>`).join("");
-}
-function carregarDados(){atualizarClientes();atualizarEstoque();atualizarVendas();atualizarSelects();atualizarDashboard();}
-
-/* ======= AUTO LOGIN ======= */
-window.addEventListener("load",()=>{
- if(localStorage.getItem("logado")==="true"){
-  document.getElementById("login-page").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  carregarDados();
- }
-});
-</script>
+<script src="script.js"></script>
 </body>
 </html>
-
-
-
