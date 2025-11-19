@@ -1,204 +1,192 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pizzaria Dona Jô - PDV</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pizzaria Dona Jô - PDV</title>
 
-<!-- FontAwesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- ========== SPLASH ========== -->
-<div id="splash">
+  <!-- SPLASH -->
+  <div id="splash">
     <div class="splash-content">
-        <h1 class="splash-title">🍕 Pizzaria Dona Jô</h1>
-        <p class="splash-sub">Carregando o sistema...</p>
-        <div class="loader"></div>
-    </div>
-</div>
-
-<!-- ========== LOGIN PAGE ========== -->
-<div id="login-page" class="hidden">
-  <div class="login-container fade-in">
-    <h1>🍕 Dona Jô Delivery</h1>
-    <input id="usuario" type="text" placeholder="Usuário">
-    <input id="senha" type="password" placeholder="Senha">
-    <button onclick="login()">Entrar</button>
-    <p class="login-tip">Usuário: <b>admin</b> | Senha: <b>1234</b></p>
-  </div>
-</div>
-
-<!-- ========== APLICAÇÃO ========== -->
-<div id="app" class="hidden">
-  <aside class="sidebar">
-    <h2>🍕 Pizzaria Dona Jô</h2>
-    <a onclick="mostrarPagina('dashboard')" id="linkDashboard" class="active"><i class="fa fa-home"></i> Início</a>
-    <a onclick="mostrarPagina('clientes')" id="linkClientes"><i class="fa fa-users"></i> Clientes</a>
-    <a onclick="mostrarPagina('estoque')" id="linkEstoque"><i class="fa fa-box"></i> Estoque</a>
-    <a onclick="mostrarPagina('vendas')" id="linkVendas"><i class="fa fa-money-bill"></i> Vendas</a>
-    <a onclick="logout()"><i class="fa fa-right-from-bracket"></i> Sair</a>
-  </aside>
-
-  <main class="main-content">
-
-    <!-- DASHBOARD -->
-<section id="dashboard">
-  <h1 class="section-title">🍕 Dashboard – Pizzaria Dona Jô</h1>
-
-  <div class="card-container">
-    <div class="card">
-      <h3>👥 Clientes</h3>
-      <p id="totalClientes">0</p>
-    </div>
-
-    <div class="card">
-      <h3>📦 Produtos</h3>
-      <p id="totalProdutos">0</p>
-    </div>
-
-    <div class="card">
-      <h3>💰 Vendas</h3>
-      <p id="totalVendas">0</p>
+      <h1 class="splash-title">🍕 Pizzaria Dona Jô</h1>
+      <p class="splash-sub">Carregando o sistema...</p>
+      <div class="loader"></div>
     </div>
   </div>
 
-  <p class="dashboard-subtitle">
-    🔥 Bem-vindo ao sistema da <b>Pizzaria Dona Jô</b>!  
-    Seu painel está pronto para começar a vender muito hoje! 😎🍕
-  </p>
-</section>
+  <!-- LOGIN -->
+  <div id="login-page" class="hidden">
+    <div class="login-container fade-in" role="dialog" aria-labelledby="login-title">
+      <h1 id="login-title">🍕 Dona Jô Delivery</h1>
+      <input id="usuario" type="text" placeholder="Usuário" autocomplete="username" />
+      <input id="senha" type="password" placeholder="Senha" autocomplete="current-password" />
+      <button id="btnLogin" type="button">Entrar</button>
+      <p class="login-tip">Usuário: <b>admin</b> | Senha: <b>1234</b></p>
+    </div>
+  </div>
 
-    <!-- CLIENTES -->
-<section id="clientes" class="hidden">
-  <h1 class="section-title">Clientes</h1>
+  <!-- APLICAÇÃO -->
+  <div id="app" class="hidden" aria-hidden="true">
 
-<form onsubmit="event.preventDefault(); addCliente();">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Menu principal">
+      <h2>🍕 Pizzaria Dona Jô</h2>
+      <a id="linkDashboard" onclick="mostrarPagina('dashboard')" class="active"><i class="fa fa-home"></i> Início</a>
+      <a id="linkClientes" onclick="mostrarPagina('clientes')"><i class="fa fa-users"></i> Clientes</a>
+      <a id="linkEstoque" onclick="mostrarPagina('estoque')"><i class="fa fa-box"></i> Estoque</a>
+      <a id="linkVendas" onclick="mostrarPagina('vendas')"><i class="fa fa-money-bill"></i> Vendas</a>
+      <a onclick="logout()"><i class="fa fa-right-from-bracket"></i> Sair</a>
+    </aside>
 
-  <label>Nome</label>
-  <input id="nomeCliente" type="text">
+    <!-- MAIN -->
+    <main class="main-content">
 
-  <label>Telefone</label>
-  <input id="telefoneCliente" type="text">
+      <!-- DASHBOARD -->
+      <section id="dashboard">
+        <h1 class="section-title">🍕 Dashboard – Pizzaria Dona Jô</h1>
 
-  <label>Endereço</label>
-  <input id="enderecoCliente" type="text">
+        <div class="card-container">
+          <div class="card">
+            <h3>👥 Clientes</h3>
+            <p id="totalClientes">0</p>
+          </div>
 
-  <label>Número</label>
-  <input id="numeroCliente" type="text">
+          <div class="card">
+            <h3>📦 Produtos</h3>
+            <p id="totalProdutos">0</p>
+          </div>
 
-  <label>Bairro</label>
-  <input id="bairroCliente" type="text">
+          <div class="card">
+            <h3>💰 Vendas</h3>
+            <p id="totalVendas">0</p>
+          </div>
+        </div>
 
-  <label>Cidade</label>
-  <input id="cidadeCliente" type="text">
+        <p class="dashboard-subtitle">Seja bem-vindo ao nosso sistema! 🍕🔥</p>
+      </section>
 
-  <label>CEP</label>
-  <input id="cepCliente" type="text">
+      <!-- CLIENTES -->
+      <section id="clientes" class="hidden">
+        <h1 class="section-title">Clientes</h1>
 
-  <label>Ponto de Referência</label>
-  <input id="referenciaCliente" type="text">
+        <form id="formCliente" onsubmit="event.preventDefault(); addCliente();">
+          <label>Nome</label>
+          <input id="nomeCliente" type="text" required />
 
-  <label>Tipo de Cliente</label>
-  <select id="tipoCliente">
-      <option value="Residencial">Residencial</option>
-      <option value="Comercial">Comercial</option>
-  </select>
+          <label>Telefone</label>
+          <input id="telefoneCliente" type="text" />
 
-  <label>Pagamento Preferido</label>
-  <select id="pagamentoPreferido">
-      <option>Dinheiro</option>
-      <option>Pix</option>
-      <option>Cartão Débito</option>
-      <option>Cartão Crédito</option>
-  </select>
+          <label>Endereço</label>
+          <input id="enderecoCliente" type="text" />
 
-  <label>Observações</label>
-  <input id="obsCliente" type="text">
+          <label>Número</label>
+          <input id="numeroCliente" type="text" />
 
-  <button>Salvar</button>
-</form>
+          <label>Bairro</label>
+          <input id="bairroCliente" type="text" />
 
-  <table>
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Telefone</th>
-        <th>Bairro</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="tabelaClientes"></tbody>
-  </table>
+          <label>Cidade</label>
+          <input id="cidadeCliente" type="text" />
 
-</section>
+          <label>CEP</label>
+          <input id="cepCliente" type="text" />
 
-    <!-- ESTOQUE -->
-<section id="estoque" class="hidden">
-  <h1 class="section-title">Estoque</h1>
+          <label>Ponto de Referência</label>
+          <input id="referenciaCliente" type="text" />
 
-  <form onsubmit="event.preventDefault(); addProduto();">
-    <label>Produto</label>
-    <input id="nomeProduto" type="text">
+          <label>Tipo de Cliente</label>
+          <select id="tipoCliente">
+            <option value="Residencial">Residencial</option>
+            <option value="Comercial">Comercial</option>
+          </select>
 
-    <label>Quantidade</label>
-    <input id="quantidadeProduto" type="number">
+          <label>Pagamento Preferido</label>
+          <select id="pagamentoPreferido">
+            <option>Dinheiro</option>
+            <option>Pix</option>
+            <option>Cartão Débito</option>
+            <option>Cartão Crédito</option>
+          </select>
 
-    <label>Preço</label>
-    <input id="precoProduto" type="number" step="0.01">
+          <label>Observações</label>
+          <input id="obsCliente" type="text" />
 
-    <button>Salvar</button>
-  </form>
+          <button type="submit">Salvar</button>
+        </form>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Produto</th>
-        <th>Qtd</th>
-        <th>Preço</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="tabelaEstoque"></tbody>
-  </table>
-</section>
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Bairro</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaClientes"></tbody>
+        </table>
+      </section>
 
-    <!-- VENDAS -->
-<section id="vendas" class="hidden">
-  <h1 class="section-title">Vendas</h1>
+      <!-- ESTOQUE -->
+      <section id="estoque" class="hidden">
+        <h1 class="section-title">Estoque</h1>
 
-  <form onsubmit="event.preventDefault(); fazerVenda();">
-    <label>Cliente</label>
-    <select id="clienteVenda"></select>
+        <form id="formEstoque" onsubmit="event.preventDefault(); addProduto();">
+          <label>Produto</label>
+          <input id="nomeProduto" type="text" required />
 
-    <label>Produto</label>
-    <select id="produtoVenda"></select>
+          <label>Quantidade</label>
+          <input id="quantidadeProduto" type="number" min="0" value="0" />
 
-    <label>Quantidade</label>
-    <input id="qtdVenda" type="number" min="1" value="1">
+          <label>Preço</label>
+          <input id="precoProduto" type="number" step="0.01" min="0" value="0.00" />
 
-    <button>Registrar Venda</button>
-  </form>
+          <button type="submit">Salvar</button>
+        </form>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Cliente</th>
-        <th>Produto</th>
-        <th>Qtd</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody id="tabelaVendas"></tbody>
-  </table>
-</section>
+        <table>
+          <thead>
+            <tr><th>Produto</th><th>Qtd</th><th>Preço</th><th></th></tr>
+          </thead>
+          <tbody id="tabelaEstoque"></tbody>
+        </table>
+      </section>
 
-  </main>
-</div>
+      <!-- VENDAS -->
+      <section id="vendas" class="hidden">
+        <h1 class="section-title">Vendas</h1>
 
-<script src="script.js"></script>
+        <form id="formVendas" onsubmit="event.preventDefault(); fazerVenda();">
+          <label>Cliente</label>
+          <select id="clienteVenda"></select>
+
+          <label>Produto</label>
+          <select id="produtoVenda"></select>
+
+          <label>Quantidade</label>
+          <input id="qtdVenda" type="number" min="1" value="1" />
+
+          <button type="submit">Registrar Venda</button>
+        </form>
+
+        <table>
+          <thead>
+            <tr><th>Cliente</th><th>Produto</th><th>Qtd</th><th>Total</th></tr>
+          </thead>
+          <tbody id="tabelaVendas"></tbody>
+        </table>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
